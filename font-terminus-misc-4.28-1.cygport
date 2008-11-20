@@ -1,0 +1,16 @@
+ORIG_PN="terminus-font"
+
+DESCRIPTION="Terminus fixed width font"
+HOMEPAGE="http://www.is-vn.bg/hamster/"
+SRC_URI="http://www.is-vn.bg/hamster/${ORIG_PN}-${PV}.tar.gz"
+
+DIFF_EXCLUDES="Makefile"
+
+MAKEOPTS+=" PSF= "
+
+src_compile() {
+	lndirs
+	cd ${B}
+	./configure --prefix=/usr --x11dir=/usr/share/fonts/misc
+	cygmake
+}
