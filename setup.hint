@@ -1,5 +1,5 @@
 category: X11
-requires: fontconfig mkfontdir mkfontscale font-alias font-encodings
+requires: fontconfig mkfontdir mkfontscale font-encodings
 sdesc: "Terminus fixed width font"
 ldesc: "Terminus Font is designed for long (8 and more hours per day) 
 work with computers. It contains 825 characters, covers about 120 
