@@ -1,0 +1,27 @@
+ORIG_PN="terminus-font"
+inherit font
+
+DESCRIPTION="Terminus fixed width font"
+HOMEPAGE="http://terminus-font.sourceforge.net/"
+SRC_URI="mirror://sourceforge/terminus-font/${ORIG_PN}-${PV}.tar.gz"
+
+DIFF_EXCLUDES="Makefile"
+
+# fonts for linux console
+MAKEOPTS+=" PSF= "
+
+src_compile() {
+	lndirs
+	cd ${B}
+	./configure --prefix=/usr --x11dir=/usr/share/fonts/misc
+	cygmake
+}
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	insinto /etc/fonts/conf.d
+	doins ${S}/75-yes-terminus.conf
+}
+DOCS="OFL.TXT"
