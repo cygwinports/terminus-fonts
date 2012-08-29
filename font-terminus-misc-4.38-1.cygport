@@ -1,0 +1,33 @@
+ORIG_PN="terminus-font"
+inherit font
+
+CATEGORY="X11"
+SUMMARY="Terminus fixed width font"
+DESCRIPTION="Terminus Font is designed for long (8 and more hours per day)
+work with computers. It contains 825 characters, covers about 120 language
+sets and supports ISO8859-1/2/5/7/9/13/15/16, Paratype-PT154/PT254,
+KOI8-R/U/E/F, Esperanto, many IBM, Windows and Macintosh code pages, as well
+as the IBM VGA, vt100 and xterm pseudographic characters."
+HOMEPAGE="http://terminus-font.sourceforge.net/"
+SRC_URI="mirror://sourceforge/terminus-font/${ORIG_PN}-${PV}.tar.gz"
+
+DIFF_EXCLUDES="Makefile"
+
+# fonts for linux console
+MAKEOPTS+=" PSF= "
+
+src_compile() {
+	lndirs
+	cd ${B}
+	sh ./configure --prefix=/usr --x11dir=${FONTSDIR}/misc
+	cygmake
+}
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	insinto /etc/fonts/conf.d
+	doins ${S}/75-yes-terminus.conf
+}
+DOCS="OFL.TXT"
