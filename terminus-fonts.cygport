@@ -1,7 +1,7 @@
 inherit font
 
-NAME="font-terminus-misc"
-VERSION=4.38
+NAME="terminus-fonts"
+VERSION=4.40
 RELEASE=1
 CATEGORY="X11"
 SUMMARY="Terminus fixed width font"
@@ -11,8 +11,16 @@ sets and supports ISO8859-1/2/5/7/9/13/15/16, Paratype-PT154/PT254,
 KOI8-R/U/E/F, Esperanto, many IBM, Windows and Macintosh code pages, as well
 as the IBM VGA, vt100 and xterm pseudographic characters."
 HOMEPAGE="http://terminus-font.sourceforge.net/"
-SRC_URI="mirror://sourceforge/terminus-font/terminus-font-${VERSION}.tar.gz"
+SRC_URI="
+	mirror://sourceforge/terminus-font/terminus-font-${VERSION}.tar.gz
+	http://pkgs.fedoraproject.org/cgit/${NAME}.git/plain/${NAME}-fontconfig.conf
+	http://pkgs.fedoraproject.org/cgit/${NAME}.git/plain/${NAME}.Xresources.example
+"
 SRC_DIR="terminus-font-${VERSION}"
+
+OBSOLETES="font-terminus-misc"
+
+ARCH=noarch
 
 DIFF_EXCLUDES="Makefile"
 
@@ -22,7 +30,7 @@ MAKEOPTS+=" PSF= "
 src_compile() {
 	lndirs
 	cd ${B}
-	sh ./configure --prefix=/usr --x11dir=${FONTSDIR}/misc
+	sh ./configure --prefix=/usr --x11dir=${FONTSDIR}/terminus
 	cygmake
 }
 
@@ -30,6 +38,10 @@ src_install() {
 	cd ${B}
 	cyginstall
 
-	dofontconf ${S}/75-yes-terminus.conf
+	newdoc ${S}/${NAME}.Xresources.example Xresources.example
+	newfontconf ${S}/${NAME}-fontconfig.conf 63-terminus.conf
+
+	dodir /etc/X11/fontpath.d
+	dosym /usr/share/fonts/terminus /etc/X11/fontpath.d/terminus:unscaled
 }
 DOCS="OFL.TXT"
